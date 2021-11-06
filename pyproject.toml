@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "botfather.dev"
+version = "0.1.0"
+description = ""
+authors = ["swistov <swistov@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiogram = "^2.15"
+environs = "^9.3.4"
+aioredis = "^2.0.0"
+emoji = "^1.6.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
