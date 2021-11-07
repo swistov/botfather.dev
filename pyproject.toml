@@ -10,9 +10,40 @@ aiogram = "^2.15"
 environs = "^9.3.4"
 aioredis = "^2.0.0"
 emoji = "^1.6.1"
+sqlmodel = "^0.0.4"
+Django = "^3.2.9"
+django-extensions = "^3.1.5"
+ipython = "^7.29.0"
+jsonfield = "^3.1.0"
 
 [tool.poetry.dev-dependencies]
+black = "^21.10b0"
+flake8 = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | venv
+    | apps/\w+/migrations
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''

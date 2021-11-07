@@ -1,7 +1,6 @@
-import logging
-
 from aiogram import Dispatcher
-from aiogram.types import Message, CallbackQuery, InputMedia, InputFile
+from aiogram.types import Message, CallbackQuery, InputMedia
+from asgiref.sync import sync_to_async
 
 from tgbot.keyboards.factory.items import items_data, item_buy
 from tgbot.keyboards.items import items_keyboard
@@ -9,7 +8,10 @@ from tgbot.keyboards.items import items_keyboard
 
 async def start_items(m: Message):
     await m.answer_photo("AgACAgIAAxkBAAIBJ2GARfHoAsNa9YjUlWzvUZVuEd8rAAKBtjEbHXgAAUg3gs3S5QUnlQEAAwIAA3gAAyEE",
-                        caption="Мандарин", reply_markup=items_keyboard)
+                         caption="Мандарин", reply_markup=items_keyboard)
+
+    # results = await sync_to_async(Division.objects.get)(pk=1)
+    # await m.answer(results.description)
 
 
 async def like_dislike(call: CallbackQuery):
