@@ -9,6 +9,7 @@ from django.core.management import BaseCommand
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
+from tgbot.handlers.admin_panel import register_admin_panels
 from tgbot.handlers.items import register_items_task3
 from tgbot.handlers.task3 import register_task3
 from tgbot.handlers.user import register_user
@@ -27,6 +28,7 @@ class Command(BaseCommand):
 
         def register_all_handlers(dp):
             register_admin(dp)
+            register_admin_panels(dp)
             register_user(dp)
             register_task3(dp)
             register_items_task3(dp)

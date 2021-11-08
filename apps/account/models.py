@@ -4,12 +4,13 @@ from django_extensions.db.models import TimeStampedModel
 
 class User(TimeStampedModel):
     class Meta:
+        ordering = ["user_id"]
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
-    user_id = models.BigIntegerField(unique=True, default=1, verbose_name="ID пользователя")
-    name = models.CharField(max_length=100, verbose_name="Имя пользователя")
-    username = models.CharField(max_length=100, verbose_name="Username пользователя")
+    user_id = models.BigIntegerField(unique=True, verbose_name="Telegram ID")
+    name = models.CharField(max_length=100, verbose_name="Telegram имя")
+    username = models.CharField(max_length=100, verbose_name="Telegram username")
     email = models.EmailField(max_length=100, null=True, verbose_name="Email")
 
     def __str__(self):
