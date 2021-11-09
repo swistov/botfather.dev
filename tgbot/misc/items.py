@@ -6,3 +6,4 @@ class AddNewItem(StatesGroup):
     PHOTO = State()
     PRICE = State()
     DESCRIPTION = State()
+    SAVE = State()

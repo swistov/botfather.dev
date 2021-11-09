@@ -7,7 +7,7 @@ async def admin_start(message: Message):
 
 
 async def get_my_id(message: Message):
-    await message.reply(message.from_user.id)
+    await message.answer(message.from_user.id)
 
 
 def register_admin(dp: Dispatcher):
