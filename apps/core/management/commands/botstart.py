@@ -64,7 +64,7 @@ class Command(BaseCommand):
             finally:
                 await dp.storage.close()
                 await dp.storage.wait_closed()
-                # await bot.session.close()
+                await bot.session.close()
 
         try:
             asyncio.run(main())
