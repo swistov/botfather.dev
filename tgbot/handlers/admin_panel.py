@@ -7,7 +7,7 @@ from aiogram.types import Message, CallbackQuery, ContentType
 from aiogram.utils.markdown import hcode
 from asgiref.sync import sync_to_async
 
-from apps.product.models import Item
+from apps.product.models import Item, Category
 from tgbot.keyboards.admin_panel import kbd_admin_panel, kbd_admin_apply_panel
 from tgbot.keyboards.factory.ft_admin_panel import item_panel
 from tgbot.misc.items import AddNewItem
@@ -69,15 +69,16 @@ async def get_item_finish(message: Message, state: FSMContext):
 
 async def save_or_publish_item(message: Message, state: FSMContext):
     data = await state.get_data()
-
+    is_published = False
+    if message.text == "Опубликовать товар":
+        is_published = True
+    category = await sync_to_async(Category.objects.get)(pk=1)
     item = await sync_to_async(Item.objects.update_or_create)(name=data.get("name"),
                                                               photo=data.get("photo"),
                                                               price=data.get("price"),
                                                               description=data.get("description"),
-                                                              category_code="1",
-                                                              category_name="Одежда",
-                                                              subcategory_code="1",
-                                                              subcategory_name="Верхняя одежда")
+                                                              category=category,
+                                                              is_published=is_published)
     if item:
         await message.answer("Товар добавлен", )
     else:
@@ -98,6 +99,7 @@ def register_admin_panels(dp: Dispatcher):
     dp.register_message_handler(get_item_description, state=AddNewItem.PRICE)
     dp.register_message_handler(get_item_finish, state=AddNewItem.DESCRIPTION)
     dp.register_message_handler(save_or_publish_item, text=["Сохранить товар"], state=AddNewItem.SAVE)
+    dp.register_message_handler(save_or_publish_item, text=["Опубликовать товар"], state=AddNewItem.SAVE)
 
     # Получение ID
     dp.register_callback_query_handler(get_my_id, item_panel.filter(item_name="get_my_id"))

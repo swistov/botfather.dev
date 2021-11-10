@@ -1,7 +1,20 @@
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from jsonfield import JSONField
+
 from apps.account.models import User
+
+
+class Category(TimeStampedModel):
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+    name = models.CharField("Название", max_length=100)
+
+    def __str__(self):
+        return f"№{self.id} - {self.name}"
 
 
 class Item(TimeStampedModel):
@@ -14,11 +27,8 @@ class Item(TimeStampedModel):
     photo = models.CharField("Фото file_id", max_length=200)
     price = models.DecimalField(decimal_places=2, max_digits=8, verbose_name="Цена")
     description = models.TextField(verbose_name="Описание", null=True)
-
-    category_code = models.CharField(max_length=20, verbose_name="Код категории")
-    category_name = models.CharField(max_length=20, verbose_name="Название категории")
-    subcategory_code = models.CharField(max_length=20, verbose_name="Код подкатегории")
-    subcategory_name = models.CharField(max_length=20, verbose_name="Название подкатегории")
+    category = models.ForeignKey(Category, on_delete=models.SET(0), verbose_name="Категория")
+    is_published = models.BooleanField("Опубликовано", default=False)
 
     def __str__(self):
         return f"{self.id} - {self.name}"
