@@ -2,16 +2,21 @@ from aiogram import Dispatcher
 from aiogram.types import Message, CallbackQuery, InputMedia
 from asgiref.sync import sync_to_async
 
-from apps.account.models import User, Referral
+from apps.account.models import User
 from tgbot.keyboards.factory.items import items_data, item_buy
 from tgbot.keyboards.items import items_keyboard
 
 
 async def start_items(m: Message):
-    await m.answer_photo("AgACAgIAAxkBAAIBJ2GARfHoAsNa9YjUlWzvUZVuEd8rAAKBtjEbHXgAAUg3gs3S5QUnlQEAAwIAA3gAAyEE",
-                         caption="Мандарин", reply_markup=items_keyboard)
+    await m.answer_photo(
+        "AgACAgIAAxkBAAIBJ2GARfHoAsNa9YjUlWzvUZVuEd8rAAKBtjEbHXgAAUg3gs3S5QUnlQEAAwIAA3gAAyEE",
+        caption="Мандарин",
+        reply_markup=items_keyboard,
+    )
 
-    results = await sync_to_async(User.objects.create)(user_id=3, name="Nick", username="sw")
+    results = await sync_to_async(User.objects.create)(
+        user_id=3, name="Nick", username="sw"
+    )
     await m.answer(results)
 
 
@@ -30,5 +35,7 @@ async def buy_item(call: CallbackQuery, callback_data: dict):
 
 def register_items_task3(dp: Dispatcher):
     dp.register_message_handler(start_items, commands=["items"])
-    dp.register_callback_query_handler(like_dislike, items_data.filter(item_name=["dislike", "like"]))
+    dp.register_callback_query_handler(
+        like_dislike, items_data.filter(item_name=["dislike", "like"])
+    )
     dp.register_callback_query_handler(buy_item, item_buy.filter(item_id="1"))

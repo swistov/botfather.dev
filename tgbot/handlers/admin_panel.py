@@ -14,7 +14,9 @@ from tgbot.misc.items import AddNewItem
 
 
 async def start_admin_panel(message: Message):
-    await message.answer(f"Добро пожаловать в панель администратора", reply_markup=kbd_admin_panel)
+    await message.answer(
+        "Добро пожаловать в панель администратора", reply_markup=kbd_admin_panel
+    )
 
 
 async def start_not_admin_panel(message: Message):
@@ -60,11 +62,14 @@ async def get_item_finish(message: Message, state: FSMContext):
         data["description"] = message.text
     data = await state.get_data()
     await AddNewItem.last()
-    await message.answer(f"{hcode('Вы указали следующие данные:')}\n"
-                         f"Название: {data.get('name')}\n"
-                         f"ID фото: {data.get('photo')}\n"
-                         f"Цена: {data.get('price')}\n"
-                         f"Описание: {data.get('description')}", reply_markup=kbd_admin_apply_panel)
+    await message.answer(
+        f"{hcode('Вы указали следующие данные:')}\n"
+        f"Название: {data.get('name')}\n"
+        f"ID фото: {data.get('photo')}\n"
+        f"Цена: {data.get('price')}\n"
+        f"Описание: {data.get('description')}",
+        reply_markup=kbd_admin_apply_panel,
+    )
 
 
 async def save_or_publish_item(message: Message, state: FSMContext):
@@ -73,14 +78,18 @@ async def save_or_publish_item(message: Message, state: FSMContext):
     if message.text == "Опубликовать товар":
         is_published = True
     category = await sync_to_async(Category.objects.get)(pk=1)
-    item = await sync_to_async(Item.objects.update_or_create)(name=data.get("name"),
-                                                              photo=data.get("photo"),
-                                                              price=data.get("price"),
-                                                              description=data.get("description"),
-                                                              category=category,
-                                                              is_published=is_published)
+    item = await sync_to_async(Item.objects.update_or_create)(
+        name=data.get("name"),
+        photo=data.get("photo"),
+        price=data.get("price"),
+        description=data.get("description"),
+        category=category,
+        is_published=is_published,
+    )
     if item:
-        await message.answer("Товар добавлен", )
+        await message.answer(
+            "Товар добавлен",
+        )
     else:
         await message.answer("Ошибка при добавлении")
     logging.info(f"Добавлен новый товар {item}")
@@ -89,17 +98,29 @@ async def save_or_publish_item(message: Message, state: FSMContext):
 
 def register_admin_panels(dp: Dispatcher):
     # Вызов панели администратора
-    dp.register_message_handler(start_admin_panel, commands=["panel"], state="*", is_admin=True)
+    dp.register_message_handler(
+        start_admin_panel, commands=["panel"], state="*", is_admin=True
+    )
     dp.register_message_handler(start_not_admin_panel, commands=["panel"], state="*")
 
     # Добавление нового товара
-    dp.register_callback_query_handler(add_new_item, item_panel.filter(item_name="new_item"))
+    dp.register_callback_query_handler(
+        add_new_item, item_panel.filter(item_name="new_item")
+    )
     dp.register_message_handler(get_item_photo, state=AddNewItem.NAME)
-    dp.register_message_handler(get_item_price, state=AddNewItem.PHOTO, content_types=ContentType.PHOTO)
+    dp.register_message_handler(
+        get_item_price, state=AddNewItem.PHOTO, content_types=ContentType.PHOTO
+    )
     dp.register_message_handler(get_item_description, state=AddNewItem.PRICE)
     dp.register_message_handler(get_item_finish, state=AddNewItem.DESCRIPTION)
-    dp.register_message_handler(save_or_publish_item, text=["Сохранить товар"], state=AddNewItem.SAVE)
-    dp.register_message_handler(save_or_publish_item, text=["Опубликовать товар"], state=AddNewItem.SAVE)
+    dp.register_message_handler(
+        save_or_publish_item, text=["Сохранить товар"], state=AddNewItem.SAVE
+    )
+    dp.register_message_handler(
+        save_or_publish_item, text=["Опубликовать товар"], state=AddNewItem.SAVE
+    )
 
     # Получение ID
-    dp.register_callback_query_handler(get_my_id, item_panel.filter(item_name="get_my_id"))
+    dp.register_callback_query_handler(
+        get_my_id, item_panel.filter(item_name="get_my_id")
+    )

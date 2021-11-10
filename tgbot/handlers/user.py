@@ -17,7 +17,7 @@ async def user_form(message: Message):
 async def get_user_email(message: Message, state: FSMContext):
     async with state.proxy() as data:
         data["name"] = message.text
-    await message.answer('Какая у тебя почта?')
+    await message.answer("Какая у тебя почта?")
     await ExamState.next()
 
 
@@ -32,15 +32,15 @@ async def print_user_data(message: Message, state: FSMContext):
     data = await state.get_data()
 
     text = [
-        'Привет! Ты ввел следующие данные:',
-        '',
+        "Привет! Ты ввел следующие данные:",
+        "",
         f'Имя - {data.get("name")}',
-        '',
+        "",
         f'Email - {data.get("email")}',
-        '',
-        f'Телефон: - {message.text}'
+        "",
+        f"Телефон: - {message.text}",
     ]
-    await message.answer('\n'.join(text))
+    await message.answer("\n".join(text))
     await state.finish()
 
 

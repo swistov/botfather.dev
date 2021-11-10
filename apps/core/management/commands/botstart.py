@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram.types import BotCommand
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from django.core.management import BaseCommand
@@ -41,17 +41,17 @@ class Command(BaseCommand):
         async def main():
             logging.basicConfig(
                 level=logging.INFO,
-                format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
+                format=u"%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
             )
             logger.info("Starting bot")
 
             config = load_config(".env")
             storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
 
-            bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
+            bot = Bot(token=config.tg_bot.token, parse_mode="HTML")
             dp = Dispatcher(bot, storage=storage)
 
-            bot['config'] = config
+            bot["config"] = config
             await set_commands(bot)
 
             register_all_middlewares(dp)

@@ -11,5 +11,7 @@ async def get_my_id(message: Message):
 
 
 def register_admin(dp: Dispatcher):
-    dp.register_message_handler(admin_start, commands=["start"], state="*", is_admin=True)
+    dp.register_message_handler(
+        admin_start, commands=["start"], state="*", is_admin=True
+    )
     dp.register_message_handler(get_my_id, commands=["myid"], state="*", is_admin=True)

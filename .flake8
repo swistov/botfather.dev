@@ -30,6 +30,7 @@ exclude =
     build,
     dist,
     venv,
+    .venv,
     apps/*/migrations
 
 # Директории, в которых хранятся локальные пакеты.

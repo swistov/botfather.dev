@@ -27,7 +27,9 @@ class Item(TimeStampedModel):
     photo = models.CharField("Фото file_id", max_length=200)
     price = models.DecimalField(decimal_places=2, max_digits=8, verbose_name="Цена")
     description = models.TextField(verbose_name="Описание", null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET(0), verbose_name="Категория")
+    category = models.ForeignKey(
+        Category, on_delete=models.SET(0), verbose_name="Категория"
+    )
     is_published = models.BooleanField("Опубликовано", default=False)
 
     def __str__(self):
@@ -41,8 +43,12 @@ class Purchase(TimeStampedModel):
 
     buyer = models.ForeignKey(User, on_delete=models.SET(0), verbose_name="Покупатель")
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name="Товар")
-    amount = models.DecimalField(decimal_places=2, max_digits=8, verbose_name="Стоимость")
-    purchase_time = models.DateTimeField(auto_now_add=True, verbose_name="Время покупки")
+    amount = models.DecimalField(
+        decimal_places=2, max_digits=8, verbose_name="Стоимость"
+    )
+    purchase_time = models.DateTimeField(
+        auto_now_add=True, verbose_name="Время покупки"
+    )
     shipping_address = JSONField(null=True, verbose_name="Адрес доставки")
     phone_number = models.CharField("Номер телефона", max_length=12)
     email = models.EmailField("Email", max_length=100, null=True)

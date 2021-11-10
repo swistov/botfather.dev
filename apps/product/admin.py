@@ -7,7 +7,9 @@ from apps.product.models import Purchase, Item, Category
 class ItemAdmin(admin.ModelAdmin):
     list_display = ["name", "price", "is_published"]
     list_filter = ["price", "is_published"]
-    search_fields = ["name", ]
+    search_fields = [
+        "name",
+    ]
 
 
 @admin.register(Purchase)
