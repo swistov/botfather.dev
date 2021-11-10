@@ -49,7 +49,7 @@ async def get_photo_id(m: Message):
 
 
 def register_user(dp: Dispatcher):
-    dp.register_message_handler(user_start, commands=["start"], state="*")
+    # dp.register_message_handler(user_start, commands=["start"], state="*")
     dp.register_message_handler(user_form, commands=["form"], state="*")
     dp.register_message_handler(get_user_email, state=ExamState.NAME)
     dp.register_message_handler(get_user_phone, state=ExamState.EMAIL)

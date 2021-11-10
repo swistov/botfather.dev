@@ -11,6 +11,7 @@ from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.admin_panel import register_admin_panels
+from tgbot.handlers.start import register_start_panel
 from tgbot.middlewares.db import DbMiddleware
 
 
@@ -27,13 +28,14 @@ class Command(BaseCommand):
         def register_all_handlers(dp):
             register_admin(dp)
             register_admin_panels(dp)
+            register_start_panel(dp)
 
         # Регистрация команд, отображаемых в интерфейсе Telegram
         async def set_commands(bot: Bot):
             commands = [
                 BotCommand(command="/start", description="Заказать напитки"),
-                BotCommand(command="/panel", description="Панель администратора"),
-                BotCommand(command="/cancel", description="Отменить текущее действие"),
+                # BotCommand(command="/panel", description="Панель администратора"),
+                # BotCommand(command="/cancel", description="Отменить текущее действие"),
                 BotCommand(command="/help", description="Помощь"),
             ]
             await bot.set_my_commands(commands)
