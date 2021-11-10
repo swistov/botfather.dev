@@ -1,7 +1,8 @@
 import asyncio
 import logging
+from aiogram.types import BotCommand
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from django.core.management import BaseCommand
@@ -10,9 +11,6 @@ from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.admin_panel import register_admin_panels
-from tgbot.handlers.items import register_items_task3
-from tgbot.handlers.task3 import register_task3
-from tgbot.handlers.user import register_user
 from tgbot.middlewares.db import DbMiddleware
 
 
@@ -29,9 +27,16 @@ class Command(BaseCommand):
         def register_all_handlers(dp):
             register_admin(dp)
             register_admin_panels(dp)
-            register_user(dp)
-            register_task3(dp)
-            register_items_task3(dp)
+
+        # Регистрация команд, отображаемых в интерфейсе Telegram
+        async def set_commands(bot: Bot):
+            commands = [
+                BotCommand(command="/start", description="Заказать напитки"),
+                BotCommand(command="/panel", description="Панель администратора"),
+                BotCommand(command="/cancel", description="Отменить текущее действие"),
+                BotCommand(command="/help", description="Помощь"),
+            ]
+            await bot.set_my_commands(commands)
 
         async def main():
             logging.basicConfig(
@@ -39,13 +44,15 @@ class Command(BaseCommand):
                 format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
             )
             logger.info("Starting bot")
-            config = load_config(".env")
 
+            config = load_config(".env")
             storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
+
             bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
             dp = Dispatcher(bot, storage=storage)
 
             bot['config'] = config
+            await set_commands(bot)
 
             register_all_middlewares(dp)
             register_all_filters(dp)
