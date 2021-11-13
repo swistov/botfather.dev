@@ -48,3 +48,8 @@ def load_config(path: str = None):
         ),
         misc=Miscellaneous(),
     )
+
+
+allowed_users = [
+    123145,
+]

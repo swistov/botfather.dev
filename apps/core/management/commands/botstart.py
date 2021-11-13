@@ -12,6 +12,7 @@ from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.admin_panel import register_admin_panels
 from tgbot.handlers.start import register_start_panel
+from tgbot.handlers.users.inline import register_user_inline
 from tgbot.middlewares.db import DbMiddleware
 
 
@@ -26,6 +27,7 @@ class Command(BaseCommand):
             dp.filters_factory.bind(AdminFilter)
 
         def register_all_handlers(dp):
+            register_user_inline(dp)
             register_admin(dp)
             register_admin_panels(dp)
             register_start_panel(dp)
