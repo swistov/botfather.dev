@@ -19,7 +19,6 @@ async def start_admin_panel(message: Message):
         "Добро пожаловать в панель администратора", reply_markup=kbd_admin_panel
     )
 
-
 async def start_not_admin_panel(message: Message):
     answer = await message.answer("Вы не администратор")
     await sleep(5)
