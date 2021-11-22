@@ -27,7 +27,7 @@ class Command(BaseCommand):
             dp.filters_factory.bind(AdminFilter)
 
         def register_all_handlers(dp):
-            register_user_inline(dp)
+            # register_user_inline(dp)
             register_admin(dp)
             register_admin_panels(dp)
             register_start_panel(dp)
