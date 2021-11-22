@@ -1,0 +1,40 @@
+# Ссылка на статью https://habr.com/ru/company/dataart/blog/318776/
+
+[flake8]
+ignore =
+    D203,
+    # Игнорировать docstrings предупреждение “Missing docstring in public class”
+    D101,
+    # Игнорировать builtins предупреждение “<some_builtin> is a python builtin and is being shadowed, consider renaming the variable”
+    B001,
+    # Missing docstring in public module
+    D100,
+    # Black
+    E203, E266, E501, W503
+
+# line length is intentionally set to 80 here because black uses Bugbear
+# See https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length for more details
+max-line-length = 80
+max-complexity = 18
+select = B,C,E,F,W,T4,B9
+
+# Указываем, какой тип кавычек должен использоваться в вашем проекте
+inline-quotes = "
+
+# Не проверять директории
+exclude =
+    .git,
+    __pycache__,
+    docs/source/conf.py,
+    old,
+    build,
+    dist,
+    venv,
+    .venv,
+    apps/*/migrations
+
+# Директории, в которых хранятся локальные пакеты.
+application-import-names = ti_platform_v2
+
+# Указываем в каком порядке должны идти импорты. Как я уже говорил выше, я предпочитаю использовать Google Style Guide.
+import-order-style = google
